@@ -1,0 +1,11 @@
+let
+  add x a = x + a with
+  foldr f a l =
+    match l with
+      [] -> True,
+      List h t -> f h (foldr f a t)
+    matched
+  in
+  foldr add 0 [1, 2, 3]
+
+

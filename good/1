@@ -1,0 +1,6 @@
+# silnia z wykorzystaniem rekurencji i przekazywania funkcji jako parametru, wyrażenie warunkowe, funkcja wieloargumentowa
+let 
+    fac n = 
+        if n <= 0 then 1 else n * (fac (n - 1)) fi with
+    g m h = h (2 * m)
+    in g 2 fac

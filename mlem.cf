@@ -1,0 +1,85 @@
+-- programs ------------------------------------------------
+
+entrypoints Program ;
+
+ProgramP.   Program ::= Expr ;
+
+-- Tokens ---------------------------------------------
+
+position token EIdent (lower (letter|digit)*) ;
+position token Or {"||"} ;
+position token And {"&&"} ;
+position token Not {"!"} ;
+position token PlusT {"+"} ;
+position token MinusT {"-"} ;
+position token TimesT {"*"} ;
+position token DivT {"/"} ;
+position token ModT {"%"} ;
+position token LTHT {"<"} ;
+position token LET {"<="} ;
+position token GTHT {">"} ;
+position token GET {">="} ;
+position token EQUT {"=="} ;
+position token NET {"!="} ;
+
+-- Expressions ---------------------------------------------
+
+EAbs.      Expr ::= "\\" [Arg] "." Expr ;
+ELet.      Expr ::= "let" [AIdent] "in" Expr ;
+EApp.      Expr6 ::= Expr6 Expr7 ;
+EMatch.    Expr6 ::= "match" Expr "with" [Rule] "matched" ;
+ELit.      Expr7 ::= Constr ;
+
+coercions  Expr 7 ;
+
+ERule.      Rule ::= Constr "->" Expr ;
+EArg.       Arg ::= EIdent ;
+AssigF.     AIdent ::= EIdent [Arg] "=" Expr ; 
+Assig.      AIdent ::= EIdent "=" Expr ; 
+
+separator nonempty Arg "";
+separator nonempty AIdent "with";
+separator nonempty Rule "," ;
+
+-- Predifined Types ----------------------------------------
+
+VarLit.      Constr ::= EIdent ;
+IntLit.      Constr ::= Integer ;
+BoolLitT.    Constr ::= "True" ;
+BoolLitF.    Constr ::= "False" ;
+ListLitE.    Constr ::= "EmptyList" ;
+ListLitC.    Constr ::= "List" Expr7 Expr7 ;
+
+-- Sweets and treats ---------------------------------------
+
+EOr.       Expr ::= Expr1 Or Expr ;
+EAnd.      Expr1 ::= Expr2 And Expr1 ;
+ERel.      Expr2 ::= Expr2 RelOp Expr3 ;
+EAdd.      Expr3 ::= Expr3 AddOp Expr4 ;
+EMul.      Expr4 ::= Expr4 MulOp Expr5 ;
+ENot.      Expr5 ::= Not Expr6 ;
+ENeg.      Expr5 ::= MinusT Expr6 ;
+EIf.       Expr6 ::= "if" Expr "then" Expr "else" Expr "fi" ;
+ListLitEn. Constr ::= "[" [Expr] "]" ;
+
+separator Expr "," ;
+
+-- operators -----------------------------------------------
+
+Plus.      AddOp ::= PlusT ;
+Minus.     AddOp ::= MinusT ;
+Times.     MulOp ::= TimesT ;
+Div.       MulOp ::= DivT ;
+Mod.       MulOp ::= ModT ;
+LTH.       RelOp ::= LTHT ;
+LE.        RelOp ::= LET ;
+GTH.       RelOp ::= GTHT ;
+GE.        RelOp ::= GET ;
+EQU.       RelOp ::= EQUT ;
+NE.        RelOp ::= NET ;
+
+-- comments ------------------------------------------------
+
+comment    "#" ;
+comment    "{*" "*}" ;
+

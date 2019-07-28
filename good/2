@@ -1,0 +1,10 @@
+# pattern matching
+let
+  foldr f a l =
+    match l with
+      [] -> a,
+      List h t -> f h (foldr f a t)
+    matched
+  in
+  foldr
+

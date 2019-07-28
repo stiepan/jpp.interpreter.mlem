@@ -1,0 +1,6 @@
+let 
+   f y x = x in
+   match [f True 2] with
+     True -> False
+   matched
+

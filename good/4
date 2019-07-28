@@ -1,0 +1,9 @@
+# Lista funkcji
+let
+  map f l = 
+    match l with
+      [] -> [],
+      List h t -> List (f h) (map f t)
+    matched
+  in
+  map (\x. x < 5) [3, 4, 5, 6]
